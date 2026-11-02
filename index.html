@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PALGI BAR MUSIC</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ padding:20px;
+ background:linear-gradient(135deg,#10051f,#321052,#090919);
+ color:white;
+ font-family:Arial,sans-serif;
+ text-align:center;
+}
+h1{color:#ffd43b;font-size:35px}
+.player{
+ max-width:430px;
+ margin:20px auto;
+ padding:22px;
+ border-radius:25px;
+ background:#ffffff12;
+ border:1px solid #a16eff;
+ box-shadow:0 0 30px #8b35ff44;
+}
+.cover{
+ width:100%;
+ height:250px;
+ object-fit:cover;
+ border-radius:20px;
+ background:linear-gradient(45deg,#ff0080,#7928ca);
+}
+h2{color:#ffd43b}
+button{
+ padding:13px 22px;
+ margin:7px;
+ border:0;
+ border-radius:30px;
+ background:#ffd43b;
+ font-weight:bold;
+ font-size:16px;
+ cursor:pointer;
+}
+button:disabled{opacity:.5}
+.lyrics{
+ text-align:center;
+ white-space:pre-line;
+ line-height:2;
+ background:#0005;
+ border-radius:15px;
+ padding:15px;
+ margin-top:20px;
+}
+.status{color:#9cffb0}
+</style>
+</head>
+
+<body>
+
+<h1>🎵 PALGI BAR 🎵</h1>
+<p>अपना हिंदी म्यूजिक प्लेयर</p>
+
+<div class="player">
+
+<img class="cover"
+src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800"
+alt="Music cover">
+
+<h2>PALGI BAR</h2>
+<p>Original Hindi Party Song</p>
+
+<button onclick="playSong()">▶ गाना चलाएँ</button>
+<button onclick="pauseSong()">⏸ रोकें</button>
+<button onclick="stopSong()">⏹ बंद करें</button>
+
+<p class="status" id="status">गाना चलाने के लिए Play दबाएँ</p>
+
+<div class="lyrics" id="lyrics">
+<h2>🎤 PALGI BAR के बोल</h2>
+
+[इंट्रो]
+
+आज की रात है मस्तानी,
+चल रही अपनी मनमानी,
+डीजे पर जब बीट बजे,
+झूमे सारी दुनिया दीवानी।
+
+[मुखड़ा]
+
+पालगी बार, पालगी बार,
+आज मचेगा बड़ा धमाल,
+दिल में जोश और आँखों में ख्वाब,
+नाचेंगे हम सारी रात।
+
+पालगी बार, पालगी बार,
+अपना अलग है ये अंदाज,
+बीट बजे तो पैर ना रुकें,
+आज करेंगे सबको हैरान।
+
+[अंतरा 1]
+
+चाँद भी देखे अपनी अदा,
+सितारे बोलें वाह-वाह,
+दोस्तों के संग मस्ती छाई,
+खुशियों ने महफिल सजाई।
+
+रंग बिरंगी रात निराली,
+धुन है अपनी सबसे प्यारी,
+हाथ उठाकर साथ में बोलो,
+आज की रात है अपनी सारी।
+
+[मुखड़ा]
+
+पालगी बार, पालगी बार,
+आज मचेगा बड़ा धमाल,
+दिल में जोश और आँखों में ख्वाब,
+नाचेंगे हम सारी रात।
+
+[अंतरा 2]
+
+दिल में सपने लाखों लेकर,
+चलते जाएँ आगे बढ़कर,
+हार कभी हम मानेंगे ना,
+अपना रास्ता छोड़ेंगे ना।
+
+ढोल बजे और नगाड़ा बाजे,
+सारी दुनिया साथ में नाचे,
+अपनी धुन पर झूमे जमाना,
+आज नहीं है घर को जाना।
+
+[रैप]
+
+अरे सुन भाई, बीट बजा,
+अपना वाला गाना लगा,
+PALGI BAR का नाम है प्यारा,
+छा जाएगा आज नजारा।
+
+अपनी मस्ती, अपनी शान,
+दिल से करते सबका मान,
+हाथ उठाओ, शोर मचाओ,
+PALGI BAR सबको सुनाओ!
+
+[फाइनल]
+
+पालगी बार, पालगी बार,
+याद रहेगा अपना नाम,
+दिल से गाओ, झूमते जाओ,
+खुशियों से भर दो हर शाम।
+
+पालगी बार, पालगी बार,
+अपना अलग है अंदाज,
+गाना खत्म हो जाए लेकिन,
+दिल में गूँजे इसकी आवाज!
+</div>
+
+</div>
+
+<script>
+const lyrics = document.getElementById("lyrics");
+const statusText = document.getElementById("status");
+
+function playSong(){
+ if(!("speechSynthesis" in window)){
+  statusText.innerText="आपका ब्राउज़र हिंदी आवाज़ सपोर्ट नहीं करता।";
+  return;
+ }
+
+ speechSynthesis.cancel();
+
+ const text = lyrics.innerText;
+ const utterance = new SpeechSynthesisUtterance(text);
+
+ utterance.lang = "hi-IN";
+ utterance.rate = 0.88;
+ utterance.pitch = 1.05;
+
+ utterance.onstart = () => {
+  statusText.innerText="🎵 PALGI BAR चल रहा है...";
+ };
+
+ utterance.onend = () => {
+  statusText.innerText="गाना समाप्त हो गया।";
+ };
+
+ utterance.onerror = () => {
+  statusText.innerText="आवाज चलाने में समस्या हुई।";
+ };
+
+ speechSynthesis.speak(utterance);
+}
+
+function pauseSong(){
+ speechSynthesis.pause();
+ statusText.innerText="गाना रोक दिया गया है।";
+}
+
+function stopSong(){
+ speechSynthesis.cancel();
+ statusText.innerText="गाना बंद हो गया है।";
+}
+</script>
+
+</body>
+</html>
